@@ -1,0 +1,18 @@
+name: Create Release / Pre-Release Test
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - closed
+      - reopened
+      - synchronize
+permissions:
+  contents: write
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+      - uses: ordinaryphp/cicd-semver-release@v0.3.0
