@@ -56,7 +56,7 @@ runs:
         echo "Code Quality Image: $OCQ_IMAGE"
         echo "Pull: $PULL_IMAGE"
         echo "Project Root: $PROJECT_ROOT"
-        echo "Running Tests (Github):"
+        echo "Running Tests (action):"
         echo "  Lint: $RUN_LINT"
         echo "  Static Analysis: $RUN_STATIC_ANALYSIS"
         echo "  Code Style: $RUN_CODE_STYLE"
