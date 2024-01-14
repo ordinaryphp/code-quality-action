@@ -70,4 +70,4 @@ runs:
           fi
         fi
         
-        docker run --rm -v "$PROJECT_ROOT:/mnt/project" --pull "$PULL_IMAGE"
+        docker run --rm -v "$PROJECT_ROOT:/mnt/project" --pull "$PULL_IMAGE" "$OCQ_IMAGE"
