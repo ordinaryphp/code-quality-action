@@ -2,39 +2,30 @@ name: Ordinary PHP Code Quality Test
 description: Run quality tests on your php code base (lint, static analysis, formatting, unit testing)
 inputs:
   version:
-    type: string
     description: "ordinary/code-quality version"
     default: "branch-main"
   phpVersion:
-    type: string
     description: "PHP version to use for testing"
     default: "8.3"
   runLint:
-    type: boolean
     description: Run linting
     default: true
   runStaticAnalysis:
-    type: boolean
     description: Run static analysis
     default: true
   runCodeStyle:
-    type: boolean
     description: Rune code style tests
     default: true
   runUnitTests:
-    type: boolean
     description: Run unit tests
     default: true
   targetTestSuite:
-    type: string
     description: Test suite to run (Runs all if empty) - multiple test suites on new lines
     default: ''
   projectRoot:
-    type: string
     description: Project root to run checks and tests (Defaults to github workspace)
     default: ''
   pull:
-    type: string
     description: When to pull (always, missing, never)
     default: missing
 runs:
