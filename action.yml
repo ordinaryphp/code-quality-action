@@ -1,0 +1,64 @@
+name: Ordinary PHP Code Quality Test
+description: Run quality tests on your php code base (lint, static analysis, formatting, unit testing)
+inputs:
+  version:
+    description: "ordinary/code-quality version"
+    default: "branch-main"
+  phpVersion:
+    description: "PHP version to use for testing"
+    default: "8.3"
+  runLint:
+    description: Run linting
+    default: true
+  runStaticAnalysis:
+    description: Run static analysis
+    default: true
+  runCodeStyle:
+    description: Rune code style tests
+    default: true
+  runUnitTests:
+    description: Run unit tests
+    default: true
+  targetTestSuite:
+    description: Test suite to run (Runs all if empty) - multiple test suites on new lines
+    default: ''
+  projectRoot:
+    description: Project root to run checks and tests (Defaults to github workspace)
+    default: ''
+  pull:
+    description: When to pull (always, missing, never)
+    default: missing
+runs:
+  using: composite
+  steps:
+    - name: Run Tests
+      env:
+        RUN_LINT: ${{ inputs.runLint }}
+        RUN_STATIC_ANALYSIS: ${{ inputs.runStaticAnalysis }}
+        RUN_CODE_STYLE: ${{ inputs.runCodeStyle }}
+        RUN_UNIT_TESTS: ${{ inputs.runUnitTests }}
+        TARGET_TEST_SUITE: ${{ inputs.targetTestSuite }}
+        OCQ_IMAGE: ghcr.io/ordinaryphp/code-quality:${{ inputs.version }}-php${{ inputs.phpVersion }}
+        PROJECT_ROOT: ${{ inputs.projectRoot || github.workspace }}
+        PULL_IMAGE: ${{ inputs.pull }}
+      shell: bash
+      # language=BASH
+      run: |
+        echo "Code Quality Image: $OCQ_IMAGE"
+        echo "Pull: $PULL_IMAGE"
+        echo "Project Root: $PROJECT_ROOT"
+        echo "Running Tests (action):"
+        echo "  Lint: $RUN_LINT"
+        echo "  Static Analysis: $RUN_STATIC_ANALYSIS"
+        echo "  Code Style: $RUN_CODE_STYLE"
+        echo "  Unit Tests: $RUN_UNIT_TESTS"
+        
+        if [ "$RUN_UNIT_TESTS" == "true" ]; then
+          if [ -n "$TARGET_TEST_SUITE" ]; then
+            echo "    Test Suite: $TARGET_TEST_SUITE"
+          else
+            echo "    **Running All Tests**"
+          fi
+        fi
+        
+        docker run --rm -v "$PROJECT_ROOT:/mnt/project" --pull "$PULL_IMAGE" "$OCQ_IMAGE"
